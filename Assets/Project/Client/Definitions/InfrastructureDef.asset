@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f3d7f79ff3a8f42a3b0e1fbf555dc8, type: 3}
+  m_Name: InfrastructureDef
+  m_EditorClassIdentifier: 
+  Boot:
+    FirstScene:
+      _sceneObject: {fileID: 102900000, guid: 7801d9fd4a6ad574496c25fd91f27933, type: 3}
+      _path: Assets/Project/Client/Media/Scenes/Content/DigScene.unity
+  SceneLoader:
+    LoadingScene:
+      _sceneObject: {fileID: 102900000, guid: 8e95bacc97033574e9a813e13a7856df, type: 3}
+      _path: Assets/Project/Client/Media/Scenes/LoadingScene.unity
+    MinimumSceneLoadingActive: 2
+  Fader:
+    FaderPrefab: {fileID: 5085197443939469909, guid: 37d66c93df7f5d346a100a01d17f11d4, type: 3}
+    FadeInDuration: 0.5
+    FadeOutDuration: 0.5
+  CommonUi:
+    ContainerID: CommonContainer
+    CommonUiCanvasPrefab: {fileID: 4244780196709676136, guid: 75776e5ca09776443852934b54611dcd, type: 3}
+    CommonUiCameraPrefab: {fileID: 7969146050962241081, guid: 5c0d99261fa62a940af9b9e2ef132bfa, type: 3}
+    UiCameraOffset: {x: 0, y: 15, z: 0}
