@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+package "/Project/Client/Media/Common/Input"{
+    component GameControls as GC
+}
+    
+package "InfrastructureAPI"{
+    interface "IBootLoad" as IBoot
+    interface "IInput" as IInput
+    
+    [FaderSignal]
+    [SceneLoaderSignal] as SLSignal
+}
+
+package "Infrastructure" {
+    
+    '=== Boot submodule
+    [Boot] ..|> IBoot
+    
+    '=== Input submodule
+    component Input
+    Input ..|> "IInput"
+    Input *-- GC
+    
+    '=== ScreenTransition submodule
+    component Fader
+    component ScenePayloadService
+    
+    component SceneLoadController as SLC
+    SLC ..> SLSignal
+    
+    component "Screen Transition Installer" as STI
+    STI *-- Fader
+    STI *-- SceneLoadController
+    STI *-- ScenePayloadService
+
+    '=== Ui submodule
+    [Ui]
+    
+    '=== Settings
+    [InfrastructureInstallerSo] as infrastructureSettings
+}
+
+@enduml
