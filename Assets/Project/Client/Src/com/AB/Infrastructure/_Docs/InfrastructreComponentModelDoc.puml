@@ -32,7 +32,7 @@ package "Infrastructure" {
     
     component "Screen Transition Installer" as STI
     STI *-- Fader
-    STI *-- SceneLoadController
+    STI *-- SLC
     STI *-- ScenePayloadService
 
     '=== Ui submodule
