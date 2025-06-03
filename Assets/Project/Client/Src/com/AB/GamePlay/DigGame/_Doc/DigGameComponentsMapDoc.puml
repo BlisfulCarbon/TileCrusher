@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+package GlobalContext{
+    object PlayerProgressionService
+    object ResourceService
+    object InputService
+}
+
+package LocalContext{
+
+    package Common{
+        object ParticleService
+    }
+
+    package  Map {
+        object MapInteractionService
+           MapInteractionService *-- InputService
+        object MapTileBreakSystem
+            MapTileBreakSystem *-- ParticleService
+
+        object MapLayerFillingService
+        object MapLayerMustBreakToCompleteService
+        
+        'Random selection of tiles to place resources on them
+        object MapLayerResourceService 
+
+        'Option features
+        object UnbreakableLayer
+        object WeekLayer
+    }
+
+    package LevelProgress{
+        object MapDifficultyService
+            MapDifficultyService *-- PlayerProgressionService
+    }
+}
+
+@enduml
