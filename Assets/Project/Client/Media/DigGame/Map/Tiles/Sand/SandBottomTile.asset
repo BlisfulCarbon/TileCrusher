@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f747e8af38fbe4d8819f37be6fd5aa, type: 3}
   m_Name: SandBottomTile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -7803566216237416115, guid: 73706e4cfe769134fa1408d6c8e6eebb, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 73706e4cfe769134fa1408d6c8e6eebb, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules: []

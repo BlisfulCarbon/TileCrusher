@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db18d819ff3b499f94f9bb2af9800f81, type: 3}
+  m_Name: DigGameDef
+  m_EditorClassIdentifier: 
+  GamePlay:
+    LayerPrefab: {fileID: 6417972232879252983, guid: e37bd5e904ad82542a51ba882491bae7, type: 3}
+    NextLayerOffset: {x: 0, y: -0.1, z: 0}
+    LayerOriginOrdering: 1000
+    GamePlayLayers:
+    - {fileID: 11400000, guid: e0d3731bf8656824fb6cb3d61c878b94, type: 2}
+    - {fileID: 11400000, guid: c91d68ec4cd21a54faa6eba9d3c5cc47, type: 2}
+    - {fileID: 11400000, guid: a5683368788c6ab4f9a29529b354c9cc, type: 2}
+  MapInteraction:
+    InteractionSwipeHoldDelay: 0.3

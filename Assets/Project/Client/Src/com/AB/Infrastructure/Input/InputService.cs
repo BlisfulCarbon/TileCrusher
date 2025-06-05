@@ -1,23 +1,29 @@
 using System;
-using Cysharp.Threading.Tasks;
-using Project.Client.Src.com.AB.Infrastructure.InfrastructureAPI;
+using System.Linq;
 using Project.Client.Src.com.AB.Infrastructure.InfrastructureAPI.Input;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using Zenject;
 
 namespace Project.Client.Src.com.AB.Infrastructure.Input
 {
     public class InputService : IInputService, IInitializable, IDisposable
     {
-        public InputService() =>
-            _gameControls = new GameControls();
+        public InputService(Settings settings)
+        {
+            _settings = settings;
+            _gameInput = new GameInput();
 
-        const float SWIPE_THRESHOLD = 10f;
-        const float LONG_PRESS_THRESHOLD = 0.6f;
+            debug = new();
+        }
+
+        public readonly Debugger debug;
+
+        readonly Settings _settings;
         readonly CompositeDisposable _disposables = new();
-        readonly GameControls _gameControls;
+        readonly GameInput _gameInput;
         readonly ReactiveProperty<Vector2> _touchPosition = new();
         readonly Subject<Vector2> _onTap = new();
         readonly Subject<Vector2> _onHold = new();
@@ -38,18 +44,33 @@ namespace Project.Client.Src.com.AB.Infrastructure.Input
 
         public void Initialize()
         {
-            _gameControls.Enable();
+            _gameInput.Enable();
 
             GetPosition();
 
             BeginningTouch();
             Lowering();
             UpdateState();
+
+
+            Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(_ =>
+            {
+                var pointer = InputSystem.devices.FirstOrDefault(d => d is Pointer);
+                if (pointer != null)
+                {
+                    Debug.Log($"Pointer found: {pointer.displayName}");
+                    // если нужно, сделать rebind вручную
+                }
+                else
+                {
+                    Debug.Log($"Pointer not found");
+                }
+            });
         }
 
         void GetPosition()
         {
-            _gameControls.Touch.Touch
+            _gameInput.GamePlay.Tap
                 .OnPerformedAsObservable()
                 .Select(ctx => ctx.ReadValue<Vector2>())
                 .Subscribe(pos => _touchPosition.Value = pos)
@@ -58,25 +79,30 @@ namespace Project.Client.Src.com.AB.Infrastructure.Input
 
         void BeginningTouch()
         {
-            _gameControls.Touch.Press
+            _gameInput.GamePlay.Press
                 .OnStartedAsObservable()
+                .DelayFrame(1) // Race condition with touch 
                 .Subscribe(_ =>
                 {
-                    _isTouching = true;
-                    _startTime = Time.time;
+                    Debug.Log("InputService::Press::Begin");
+
                     _lastPosition = _touchPosition.Value;
+                    _startTime = Time.time;
                     _swipeTriggered = false;
                     _holdTriggered = false;
+                    _isTouching = true;
                 })
                 .AddTo(_disposables);
         }
 
         void Lowering()
         {
-            _gameControls.Touch.Press
+            _gameInput.GamePlay.Press
                 .OnCanceledAsObservable()
                 .Subscribe(_ =>
                 {
+                    Debug.Log("InputService::Press::Lowering");
+
                     if (!_swipeTriggered && !_holdTriggered)
                         _onTap.OnNext(_touchPosition.Value);
 
@@ -87,39 +113,61 @@ namespace Project.Client.Src.com.AB.Infrastructure.Input
 
         void UpdateState()
         {
+            return;
+
             Observable.EveryUpdate()
                 .Where(_ => _isTouching)
                 .Subscribe(_ =>
                 {
+                    Touchscreen.current.primaryTouch.position.ReadValue();
+
                     var currentPosition = _touchPosition.Value;
-                    float distance = (currentPosition - _lastPosition).sqrMagnitude;
+                    float distance = (_lastPosition - currentPosition).sqrMagnitude;
+
                     _lastPosition = currentPosition;
-                    
-                    if (distance > SWIPE_THRESHOLD)
+
+                    if (distance > _settings.SwipeThreshold)
                     {
                         _swipeTriggered = true;
                         _onSwipe.OnNext(currentPosition);
 
                         _holdTriggered = false;
                         _startTime = Time.time;
-                        
+
                         return;
                     }
 
-                    if (!_holdTriggered && (Time.time - _startTime > LONG_PRESS_THRESHOLD)) 
+                    if (!_holdTriggered && (Time.time - _startTime > _settings.LongPressThreshold))
                         _holdTriggered = true;
 
-                    if (_holdTriggered) 
+                    if (_holdTriggered)
                         _onHold.OnNext(currentPosition);
-
                 })
                 .AddTo(_disposables);
         }
 
         public void Dispose()
         {
-            _gameControls?.Dispose();
+            _gameInput?.Dispose();
             _disposables.Dispose();
+        }
+
+        [Serializable]
+        public class Settings
+        {
+            public float SwipeThreshold = 20f;
+            public float LongPressThreshold = 0.6f;
+        }
+
+        public class Debugger
+        {
+            public void CheckDevices()
+            {
+                foreach (var device in InputSystem.devices)
+                {
+                    Debug.Log($"[Device] {device.name} — {device.enabled} — {device.added}");
+                }
+            }
         }
     }
 }

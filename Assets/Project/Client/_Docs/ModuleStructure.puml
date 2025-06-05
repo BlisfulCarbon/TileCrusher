@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+
+'Place where player would spend resources, upgrade skills'
+object Hub
+
+object Player
+
+object Input
+
+'Map start'
+object Map{
+    
+}
+
+object Layers{
+
+}
+
+object Tile{
+
+}
+
+object Resource{
+
+}
+'Map end'
+
+@enduml

@@ -10,11 +10,13 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame
         menuName = EditorConst.ASSET_MENU_DIG_GAME + "DigDef")]
     public class DigGameSoInstaller : ScriptableObjectInstaller
     {
-        public MapGamePlayLayersService.Settings GamePlay;
+        public MapGamePlayService.Settings GamePlay;
+        public MapInteractionService.Settings MapInteraction;
 
         public override void InstallBindings()
         {
             Container.BindInstance(GamePlay).IfNotBound();
+            Container.BindInstance(MapInteraction).IfNotBound();
         }
     }
 }

@@ -5,40 +5,33 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map.Filling
 {
     public class MapFillingService : IInitializable
     {
-        MapFacade _map;
+        MapGamePlayService _mapGamePlay;
         Tilemap _fillingLayer;
 
         public MapFillingService(
-            [Inject(Id = Settings.FILLING_LAYER_CONTAINER_ID)]
+            [Inject(Id = ContainersID.FILLING_LAYER_CONTAINER_ID)]
             Tilemap fillingLayer,
-            MapFacade map
+            MapGamePlayService mapGamePlay
         )
         {
             _fillingLayer = fillingLayer;
-            _map = map;
+            _mapGamePlay = mapGamePlay;
 
             _fillingLayer.gameObject.SetActive(false);
         }
 
-        public void Initialize()
-        {
-            FillLayers(_map, _fillingLayer);
-        }
+        public void Initialize() => 
+            FillLayers(_mapGamePlay, _fillingLayer);
 
-        void FillLayers(MapFacade map, Tilemap fillingLayer)
+        void FillLayers(MapGamePlayService mapGamePlay, Tilemap fillingLayer)
         {
             foreach (var fillingPosition in fillingLayer.cellBounds.allPositionsWithin)
             {
                 if (!fillingLayer.HasTile(fillingPosition))
                     continue;
 
-                map.SetTileAllLayers(fillingPosition);
+                mapGamePlay.SetTileAllLayers(fillingPosition);
             }
-        }
-
-        public class Settings
-        {
-            public const string FILLING_LAYER_CONTAINER_ID = "FillingLayer";
         }
     }
 }

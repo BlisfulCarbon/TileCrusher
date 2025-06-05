@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f747e8af38fbe4d8819f37be6fd5aa, type: 3}
   m_Name: SoilBottomTile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 2161989951422769781, guid: 43a217f0659fb514ca34bc5373d91b1d, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: c05cb930480d0924b95a5b734f71fb4b, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules: []

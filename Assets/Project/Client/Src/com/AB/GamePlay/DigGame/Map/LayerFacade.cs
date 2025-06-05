@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Map.Filling;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -10,7 +11,8 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
     {
         public const int LAST_TOPOLOGY_ID = -1;
         
-        public readonly Tilemap Layer;
+        public readonly Tilemap Tilemap;
+        public readonly Dictionary<Vector2Int, int> InteractionsMap = new ();
         public readonly TilemapRenderer LayerRenderer;
         public readonly MapFillingLayerSo Def;
 
@@ -21,11 +23,11 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             if (string.IsNullOrEmpty(Def.LayerID))
                 Def.LayerID = Guid.NewGuid().ToString();
 
-            Layer = Object.Instantiate(prefab, container, true);
-            LayerRenderer = Layer.GetComponent<TilemapRenderer>();
+            Tilemap = Object.Instantiate(prefab, container, true);
+            LayerRenderer = Tilemap.GetComponent<TilemapRenderer>();
             
-            Layer.transform.position = Vector3.zero + offset;
-            Layer.name = Def.LayerID;
+            Tilemap.transform.position = Vector3.zero + offset;
+            Tilemap.name = Def.LayerID;
         }
 
         public string GetId => Def.LayerID;
@@ -36,7 +38,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
         public void SetTile(Vector3Int position, int topologyId = 0)
         {
             TileBase tile = Def.TopologyTiles[topologyId];
-            Layer.SetTile(position, tile);
+            Tilemap.SetTile(position, tile);
         }
     }
 }

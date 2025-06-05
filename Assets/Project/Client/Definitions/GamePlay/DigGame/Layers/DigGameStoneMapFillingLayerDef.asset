@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a80d31d62d4732ab747130194d1ce9, type: 3}
+  m_Name: DigGameStoneMapFillingLayerDef
+  m_EditorClassIdentifier: 
+  LayerID: Stone
+  TopologyTiles:
+  - {fileID: 11400000, guid: cb528c5ccfd511a4a88d9ee8a246a590, type: 2}
+  - {fileID: 11400000, guid: 1441798952d57d04db0eb7f873392120, type: 2}
+  - {fileID: 11400000, guid: 0628b3eba65c9234e9e6fab89eace829, type: 2}
+  BreakParticle: {fileID: 11400000, guid: 2984999520b4d74458ef256590a7b118, type: 2}
+  BrokenParticle: {fileID: 11400000, guid: 2984999520b4d74458ef256590a7b118, type: 2}
