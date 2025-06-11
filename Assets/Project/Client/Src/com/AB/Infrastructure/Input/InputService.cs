@@ -59,7 +59,6 @@ namespace Project.Client.Src.com.AB.Infrastructure.Input
                 if (pointer != null)
                 {
                     Debug.Log($"Pointer found: {pointer.displayName}");
-                    // если нужно, сделать rebind вручную
                 }
                 else
                 {

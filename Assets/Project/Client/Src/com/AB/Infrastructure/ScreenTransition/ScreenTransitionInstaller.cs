@@ -19,7 +19,7 @@ namespace Project.Client.Src.com.AB.Infrastructure.ScreenTransition
         public override void InstallBindings()
         {
             GameObject uiContainer = InitCommonUi();
-            InitFader(uiContainer);
+            InitFader();
             InitSceneLoader();
         }
 
@@ -50,10 +50,9 @@ namespace Project.Client.Src.com.AB.Infrastructure.ScreenTransition
             return commonContainer;
         }
 
-        void InitFader(GameObject commonContainer)
+        void InitFader()
         {
             var faderInstance = Container.InstantiatePrefabForComponent<FaderMono>(_def.Fader.FaderPrefab);
-            // faderInstance.transform.parent = commonContainer.transform;
 
             Container.Bind<FaderMono>().FromInstance(faderInstance).AsSingle();
 

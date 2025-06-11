@@ -1,5 +1,6 @@
 using System;
 using Plugins.PaperCrafts.com.AB.Extensions;
+using Project.Client.Src.com.AB.GamePlay.Common.Particles;
 using Project.Client.Src.com.AB.Infrastructure.InfrastructureAPI.Input;
 using UniRx;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
         readonly Settings _settings;
         readonly IInputService _input;
         readonly MapGamePlayService _mapGamePlay;
+        readonly ParticleService _particles;
         readonly Camera _gamePlayCamera;
 
         readonly CompositeDisposable _disposables = new();
@@ -21,6 +23,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
         public MapInteractionService(
             Settings settings,
             MapGamePlayService mapGamePlay,
+            ParticleService particles,
             IInputService input,
             [Inject(Id = ContainersID.GAMEPLAY_CAMERA_CONTAINER_ID)]
             Camera gamePlayCamera)
@@ -28,6 +31,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             _settings = settings;
             _input = input;
             _mapGamePlay = mapGamePlay;
+            _particles = particles;
             _gamePlayCamera = gamePlayCamera;
 
             _input.OnTap.Subscribe(OnTap).AddTo(_disposables);
@@ -72,6 +76,12 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
                         tile = layer.Def.TopologyTiles[countInteractionsWithCell];
 
                     layer.Tilemap.SetTile(cellPosition, tile);
+
+                    
+                    var particleSpawnPosition = layer.Tilemap.CellToWorld(cellPosition);
+                    var particleKey = tile == null ? layer.Def.GetBrokenKey() : layer.Def.GetBreakKey();
+                    _particles.Spawn(particleKey, particleSpawnPosition);
+
                     break;
                 }
             }

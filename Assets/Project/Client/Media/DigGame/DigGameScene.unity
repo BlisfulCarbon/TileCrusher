@@ -155,6 +155,7 @@ Transform:
   m_Children:
   - {fileID: 672668807}
   - {fileID: 848901692}
+  - {fileID: 1997696934}
   m_Father: {fileID: 851671168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &172526377
@@ -310,7 +311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c375497836135498600f54d69be3f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneRefs: {fileID: 848901693}
+  _sceneRefs: {fileID: 848901693}
+  _settings: {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
 --- !u!1 &686499645
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,6 +617,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
   _monoInstallers:
   - {fileID: 672668808}
+  - {fileID: 1997696935}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -954,6 +957,51 @@ SpriteMask:
   m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
   m_MaskSource: 0
+--- !u!1 &1997696933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1997696934}
+  - component: {fileID: 1997696935}
+  m_Layer: 0
+  m_Name: Particle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1997696934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997696933}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 148248395}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1997696935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997696933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06c75302c8c40cc8bdebb99b8f473a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapper: {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
 --- !u!1 &2102286146
 GameObject:
   m_ObjectHideFlags: 0

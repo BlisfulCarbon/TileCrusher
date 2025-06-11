@@ -17,5 +17,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae2797df420eacf498236011a4fdf4e8, type: 2}
   - {fileID: 11400000, guid: cd78871a6796d2d4481ebeba1935f9a3, type: 2}
   - {fileID: 11400000, guid: 0f6e0ff34ceec3b48b4a8ace0a9a88c5, type: 2}
-  BreakParticle: {fileID: 11400000, guid: 2984999520b4d74458ef256590a7b118, type: 2}
-  BrokenParticle: {fileID: 11400000, guid: 2984999520b4d74458ef256590a7b118, type: 2}
+  BreakParticle: {fileID: 11400000, guid: 935595730838d3648972cd0064868f0c, type: 2}
+  BrokenParticle: {fileID: 11400000, guid: e6281afe814460841ade70f83528ebb8, type: 2}

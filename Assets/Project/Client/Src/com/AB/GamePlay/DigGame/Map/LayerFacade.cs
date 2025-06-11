@@ -9,8 +9,6 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
 {
     public class LayerFacade
     {
-        public const int LAST_TOPOLOGY_ID = -1;
-        
         public readonly Tilemap Tilemap;
         public readonly Dictionary<Vector2Int, int> InteractionsMap = new ();
         public readonly TilemapRenderer LayerRenderer;

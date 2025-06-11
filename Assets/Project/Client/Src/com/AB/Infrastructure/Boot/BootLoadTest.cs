@@ -18,7 +18,7 @@ namespace Project.Client.Src.com.AB.Infrastructure.Boot
 
         async void MakeLoaded()
         {
-            await UniTask.WaitForSeconds(3f);
+            // await UniTask.WaitForSeconds(3f);
 
             Debug.Log($"Boot load test loaded");
             

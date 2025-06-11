@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Project.Client.Src.com.AB.GamePlay.Common.Particles;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Map.Filling;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -15,7 +16,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
 
         public IEnumerable<LayerFacade> Layers
             => _layers.Values;
-        
+
         public MapGamePlayService(Settings settings,
             [Inject(Id = ContainersID.GAME_PALY_LAYERS_CONTAINER_ID)]
             Transform gamePlayLayersContainer)
@@ -25,7 +26,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             AddLayers(_settings, gamePlayLayersContainer);
         }
 
-        void AddLayers(Settings settings, Transform container )
+        void AddLayers(Settings settings, Transform container)
         {
             foreach (var layerElement in settings.GamePlayLayers.Select((item, index) => (index, item)))
             {
@@ -38,7 +39,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
                 _layers.Add(layer.GetId, layer);
             }
         }
-        
+
         public void SetTileAllLayers(Vector3Int position, int topologyId = 0)
         {
             foreach (LayerFacade layer in _layers.Values)
@@ -46,13 +47,21 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
         }
 
         [Serializable]
-        public class Settings
+        public class Settings : IParticleMapper
         {
             public Tilemap LayerPrefab;
             public Vector3 NextLayerOffset;
             public int LayerOriginOrdering;
-            
+
             public List<MapFillingLayerSo> GamePlayLayers;
+
+            public IEnumerable<ParticleMappingItem> GetParticleMapping()
+            {
+                List<ParticleMappingItem> particlesDef = new();
+                GamePlayLayers.ForEach(item => particlesDef.AddRange(item.GetParticleMapping()));
+
+                return particlesDef;
+            }
         }
     }
 }
