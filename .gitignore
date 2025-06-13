@@ -28,3 +28,6 @@ Thumbs.db
 
 # ========== Addressables Build ==========
 /ServerData/
+
+# === Staf ===
+.utmp/**
