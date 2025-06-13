@@ -17,5 +17,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae2797df420eacf498236011a4fdf4e8, type: 2}
   - {fileID: 11400000, guid: cd78871a6796d2d4481ebeba1935f9a3, type: 2}
   - {fileID: 11400000, guid: 0f6e0ff34ceec3b48b4a8ace0a9a88c5, type: 2}
+  Break:
+    Audio: {fileID: 11400000, guid: 398b1a1742e5a5f418765f7f840737bc, type: 2}
+    Particle: {fileID: 11400000, guid: 935595730838d3648972cd0064868f0c, type: 2}
+    ActionSufixKey: 
+  Broken:
+    Audio: {fileID: 11400000, guid: 0869033078bbfd048b0544039ebaff1c, type: 2}
+    Particle: {fileID: 11400000, guid: e6281afe814460841ade70f83528ebb8, type: 2}
+    ActionSufixKey: 
   BreakParticle: {fileID: 11400000, guid: 935595730838d3648972cd0064868f0c, type: 2}
   BrokenParticle: {fileID: 11400000, guid: e6281afe814460841ade70f83528ebb8, type: 2}

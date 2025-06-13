@@ -1,42 +1,72 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
-using Project.Client.Src.com.AB.GamePlay.Common.Const;
+using Project.Client.Src.com.AB.GamePlay.Common.Audio;
 using Project.Client.Src.com.AB.GamePlay.Common.Particles;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map.Filling
 {
     [CreateAssetMenu(
-        fileName = "$Name$MapFillingLayerDef", 
-        menuName = AssetsConst.ASSET_MENU_DIG_GAME + "MapFillingDef")]
+        fileName = "$Name$MapFillingLayerDef",
+        menuName = DigGameConst.ASSET_MENU_DIGGAME_PATH + "MapFillingDef")]
     public class MapFillingLayerSo : ScriptableObject
     {
+        const string BREAK_SUFIX_KEY = "_break";
+        const string BROKEN_SUFIX_KEY = "_broken";
+
+        void OnValidate()
+        {
+            Break.ActionSufixKey = UpdateActionKey(Break.ActionSufixKey, BREAK_SUFIX_KEY);
+            Broken.ActionSufixKey = UpdateActionKey(Broken.ActionSufixKey, BROKEN_SUFIX_KEY);
+        }
+
         public string LayerID;
         public List<TileBase> TopologyTiles;
-        
-        public ParticleSo BreakParticle;
-        public ParticleSo BrokenParticle;
 
-        const string PARTIKLE_BREAK_SUFIX_KEY = "_break";
-        const string PARTIKLE_BROKEN_SUFIX_KEY = "_broken";
+        public LayerAction Break;
+        public LayerAction Broken;
 
-        public string GetBreakKey() => 
-            LayerID + PARTIKLE_BREAK_SUFIX_KEY;
-        
-        public string GetBrokenKey() => 
-            LayerID + PARTIKLE_BROKEN_SUFIX_KEY;
-        
-        public List<ParticleMappingItem> GetParticleMapping()
-        {
-            IEnumerable<ParticleMappingItem> items = new List<ParticleMappingItem>();
+        public string GetAudioBreakKey() =>
+            Break.Audio.ID;
 
-            return new List<ParticleMappingItem>
+        public string GetAudioBrokenKey() =>
+            Broken.Audio.ID;
+
+        public IEnumerable<AudioMappingDto> GetAudioMapping() =>
+            new List<AudioMappingDto>
             {
-                new ParticleMappingItem(GetBreakKey(), BreakParticle),
-                new ParticleMappingItem(GetBrokenKey(), BrokenParticle),
+                new (GetAudioBreakKey(), Break.Audio),
+                new (GetAudioBrokenKey(), Broken.Audio),
             };
+
+        public string GetParticleBreakKey() =>
+            LayerID + Break.ActionSufixKey;
+
+        public string GetParticleBrokenKey() =>
+            LayerID + Broken.ActionSufixKey;
+
+        public IEnumerable<ParticleMappingDto> GetParticleMapping() =>
+            new List<ParticleMappingDto>
+            {
+                new (GetParticleBreakKey(), Break.Particle),
+                new (GetParticleBrokenKey(), Broken.Particle),
+            };
+
+        string UpdateActionKey(string key, string defaultKey)
+        {
+            Debug.Log($"{nameof(MapFillingLayerSo)}::UpdateActionKey:{key}/{defaultKey}");
+            
+            return string.IsNullOrEmpty(key) ? defaultKey : key;
+        }
+
+        [Serializable]
+        public class LayerAction
+        {
+            public AudioSo Audio;
+            public ParticleSo Particle;
+            public string ActionSufixKey;
         }
     }
 }

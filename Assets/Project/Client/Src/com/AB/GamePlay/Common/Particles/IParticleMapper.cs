@@ -4,6 +4,6 @@ namespace Project.Client.Src.com.AB.GamePlay.Common.Particles
 {
     public interface IParticleMapper
     {
-        public IEnumerable<ParticleMappingItem> GetParticleMapping();
+        public IEnumerable<ParticleMappingDto> GetParticleMapping();
     }
 }

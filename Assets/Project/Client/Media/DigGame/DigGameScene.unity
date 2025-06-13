@@ -156,6 +156,7 @@ Transform:
   - {fileID: 672668807}
   - {fileID: 848901692}
   - {fileID: 1997696934}
+  - {fileID: 1265947484}
   m_Father: {fileID: 851671168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &172526377
@@ -426,7 +427,7 @@ Transform:
   m_GameObject: {fileID: 695207788}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.2, z: 100}
+  m_LocalPosition: {x: 0, y: 3.14, z: 100}
   m_LocalScale: {x: 1, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -616,8 +617,9 @@ MonoBehaviour:
   _scriptableObjectInstallers:
   - {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
   _monoInstallers:
-  - {fileID: 672668808}
+  - {fileID: 1265947485}
   - {fileID: 1997696935}
+  - {fileID: 672668808}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -700,6 +702,62 @@ Transform:
   - {fileID: 1673082094}
   m_Father: {fileID: 1585100104}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1265947483
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1265947484}
+  - component: {fileID: 1265947485}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1265947484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265947483}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 148248395}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1265947485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265947483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33aff3acf84d1eb4f2be30f2d2e9e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mappers:
+  - {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
+  AudioSettings:
+    PlayList:
+    - {fileID: 8300000, guid: 1048535eb5ec0684b94c566bc9efc957, type: 3}
+    - {fileID: 8300000, guid: d5919122089b53f48b8339f092ff4323, type: 3}
+    - {fileID: 8300000, guid: 28cd1cd813fddd143a59b95a35c6ffa0, type: 3}
+    - {fileID: 8300000, guid: 94f583069c6b85645851fa3f1ae02c42, type: 3}
+    - {fileID: 8300000, guid: 92d8eb7a6a5de314398a4d8235a551c1, type: 3}
+    - {fileID: 8300000, guid: 0325d1a8cb272a845b9cf63e23806358, type: 3}
+  PlayerSettings:
+    NumberFXPlayers: 1
 --- !u!1 &1391296191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,7 +1059,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06c75302c8c40cc8bdebb99b8f473a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapper: {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
+  _mappers:
+  - {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
 --- !u!1 &2102286146
 GameObject:
   m_ObjectHideFlags: 0

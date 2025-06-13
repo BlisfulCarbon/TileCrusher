@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Project.Client.Src.com.AB.GamePlay.Common.Audio;
 using Project.Client.Src.com.AB.GamePlay.Common.Particles;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Map.Filling;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
@@ -47,7 +49,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
         }
 
         [Serializable]
-        public class Settings : IParticleMapper
+        public class Settings : IParticleMapper, IAudioMapper
         {
             public Tilemap LayerPrefab;
             public Vector3 NextLayerOffset;
@@ -55,12 +57,20 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
 
             public List<MapFillingLayerSo> GamePlayLayers;
 
-            public IEnumerable<ParticleMappingItem> GetParticleMapping()
+            public IEnumerable<ParticleMappingDto> GetParticleMapping()
             {
-                List<ParticleMappingItem> particlesDef = new();
+                List<ParticleMappingDto> particlesDef = new();
                 GamePlayLayers.ForEach(item => particlesDef.AddRange(item.GetParticleMapping()));
 
                 return particlesDef;
+            }
+
+            public IEnumerable<AudioMappingDto> GetAudiosMapping()
+            {
+                List<AudioMappingDto> audiosDef = new();
+                GamePlayLayers.ForEach(item => audiosDef.AddRange(item.GetAudioMapping()));
+
+                return audiosDef;
             }
         }
     }

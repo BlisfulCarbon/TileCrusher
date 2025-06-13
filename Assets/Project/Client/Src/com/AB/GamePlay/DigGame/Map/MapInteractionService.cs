@@ -1,5 +1,6 @@
 using System;
 using Plugins.PaperCrafts.com.AB.Extensions;
+using Project.Client.Src.com.AB.GamePlay.Common.Audio;
 using Project.Client.Src.com.AB.GamePlay.Common.Particles;
 using Project.Client.Src.com.AB.Infrastructure.InfrastructureAPI.Input;
 using UniRx;
@@ -15,6 +16,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
         readonly IInputService _input;
         readonly MapGamePlayService _mapGamePlay;
         readonly ParticleService _particles;
+        readonly AudioService _audio;
         readonly Camera _gamePlayCamera;
 
         readonly CompositeDisposable _disposables = new();
@@ -24,6 +26,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             Settings settings,
             MapGamePlayService mapGamePlay,
             ParticleService particles,
+            AudioService audio,
             IInputService input,
             [Inject(Id = ContainersID.GAMEPLAY_CAMERA_CONTAINER_ID)]
             Camera gamePlayCamera)
@@ -32,6 +35,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             _input = input;
             _mapGamePlay = mapGamePlay;
             _particles = particles;
+            _audio = audio;
             _gamePlayCamera = gamePlayCamera;
 
             _input.OnTap.Subscribe(OnTap).AddTo(_disposables);
@@ -77,11 +81,13 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
 
                     layer.Tilemap.SetTile(cellPosition, tile);
 
-                    
                     var particleSpawnPosition = layer.Tilemap.CellToWorld(cellPosition);
-                    var particleKey = tile == null ? layer.Def.GetBrokenKey() : layer.Def.GetBreakKey();
+                    var particleKey = tile == null ? layer.Def.GetParticleBrokenKey() : layer.Def.GetParticleBreakKey();
                     _particles.Spawn(particleKey, particleSpawnPosition);
 
+                    var soundKey = tile == null ? layer.Def.GetAudioBrokenKey() : layer.Def.GetAudioBreakKey();
+                    _audio.Play(soundKey);
+                    
                     break;
                 }
             }
