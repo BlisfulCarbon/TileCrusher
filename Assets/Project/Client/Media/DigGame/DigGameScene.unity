@@ -748,16 +748,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mappers:
   - {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
-  AudioSettings:
-    PlayList:
-    - {fileID: 8300000, guid: 1048535eb5ec0684b94c566bc9efc957, type: 3}
-    - {fileID: 8300000, guid: d5919122089b53f48b8339f092ff4323, type: 3}
-    - {fileID: 8300000, guid: 28cd1cd813fddd143a59b95a35c6ffa0, type: 3}
-    - {fileID: 8300000, guid: 94f583069c6b85645851fa3f1ae02c42, type: 3}
-    - {fileID: 8300000, guid: 92d8eb7a6a5de314398a4d8235a551c1, type: 3}
-    - {fileID: 8300000, guid: 0325d1a8cb272a845b9cf63e23806358, type: 3}
-  PlayerSettings:
-    NumberFXPlayers: 1
+  Settings:
+    Sound:
+      Debugg: 1
+    Music:
+      PlayList:
+      - {fileID: 8300000, guid: 1048535eb5ec0684b94c566bc9efc957, type: 3}
+      - {fileID: 8300000, guid: d5919122089b53f48b8339f092ff4323, type: 3}
+      - {fileID: 8300000, guid: 28cd1cd813fddd143a59b95a35c6ffa0, type: 3}
+      - {fileID: 8300000, guid: 94f583069c6b85645851fa3f1ae02c42, type: 3}
+      - {fileID: 8300000, guid: 92d8eb7a6a5de314398a4d8235a551c1, type: 3}
+      - {fileID: 8300000, guid: 0325d1a8cb272a845b9cf63e23806358, type: 3}
+    Player:
+      NumberSFXPlayerInitial: 3
+      NumberSFXPlayersMax: 5
+      SFXPlayerPrefab: {fileID: 5919729964373934972, guid: 9770946612dd53c47ac20557b003a6cb, type: 3}
+      MusicPlayerPrefab: {fileID: 5919729964373934972, guid: df63a7245605bc54c909b73787ca30e3, type: 3}
 --- !u!1 &1391296191
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
         readonly IInputService _input;
         readonly MapGamePlayService _mapGamePlay;
         readonly ParticleService _particles;
-        readonly AudioService _audio;
+        readonly AudioSFXService _audioSfx;
         readonly Camera _gamePlayCamera;
 
         readonly CompositeDisposable _disposables = new();
@@ -26,7 +26,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             Settings settings,
             MapGamePlayService mapGamePlay,
             ParticleService particles,
-            AudioService audio,
+            AudioSFXService audioSfx,
             IInputService input,
             [Inject(Id = ContainersID.GAMEPLAY_CAMERA_CONTAINER_ID)]
             Camera gamePlayCamera)
@@ -35,7 +35,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             _input = input;
             _mapGamePlay = mapGamePlay;
             _particles = particles;
-            _audio = audio;
+            _audioSfx = audioSfx;
             _gamePlayCamera = gamePlayCamera;
 
             _input.OnTap.Subscribe(OnTap).AddTo(_disposables);
@@ -86,7 +86,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
                     _particles.Spawn(particleKey, particleSpawnPosition);
 
                     var soundKey = tile == null ? layer.Def.GetAudioBrokenKey() : layer.Def.GetAudioBreakKey();
-                    _audio.Play(soundKey);
+                    _audioSfx.Play(soundKey);
                     
                     break;
                 }
