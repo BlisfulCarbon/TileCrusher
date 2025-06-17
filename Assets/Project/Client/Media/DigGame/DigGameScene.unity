@@ -153,8 +153,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 672668807}
   - {fileID: 848901692}
+  - {fileID: 672668807}
   - {fileID: 1997696934}
   - {fileID: 1265947484}
   m_Father: {fileID: 851671168}
@@ -297,7 +297,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 955752616}
   m_Father: {fileID: 148248395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &672668808
@@ -620,6 +621,7 @@ MonoBehaviour:
   - {fileID: 1265947485}
   - {fileID: 1997696935}
   - {fileID: 672668808}
+  - {fileID: 955752617}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -637,6 +639,52 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
+--- !u!1 &955752615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 955752616}
+  - component: {fileID: 955752617}
+  m_Layer: 0
+  m_Name: MapInstaller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &955752616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955752615}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 672668807}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &955752617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955752615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a3021be4e54741af918d3db2f2d7ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneRefs: {fileID: 848901693}
+  _settings: {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
 --- !u!1 &1176541615
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,7 +761,7 @@ GameObject:
   - component: {fileID: 1265947484}
   - component: {fileID: 1265947485}
   m_Layer: 0
-  m_Name: Audio
+  m_Name: AudioInstaller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -750,7 +798,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9dad22a9419904048827a0e0cac1214d, type: 2}
   Settings:
     Sound:
-      Debugg: 1
+      Debugg: 0
     Music:
       PlayList:
       - {fileID: 8300000, guid: 1048535eb5ec0684b94c566bc9efc957, type: 3}
@@ -1032,7 +1080,7 @@ GameObject:
   - component: {fileID: 1997696934}
   - component: {fileID: 1997696935}
   m_Layer: 0
-  m_Name: Particle
+  m_Name: ParticleInstaller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

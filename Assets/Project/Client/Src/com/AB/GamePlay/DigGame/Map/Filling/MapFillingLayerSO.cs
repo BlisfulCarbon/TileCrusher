@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Project.Client.Src.com.AB.GamePlay.Common.Audio;
 using Project.Client.Src.com.AB.GamePlay.Common.Particles;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -54,12 +53,8 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map.Filling
                 new (GetParticleBrokenKey(), Broken.Particle),
             };
 
-        string UpdateActionKey(string key, string defaultKey)
-        {
-            Debug.Log($"{nameof(MapFillingLayerSo)}::UpdateActionKey:{key}/{defaultKey}");
-            
-            return string.IsNullOrEmpty(key) ? defaultKey : key;
-        }
+        string UpdateActionKey(string key, string defaultKey) => 
+            string.IsNullOrEmpty(key) ? defaultKey : key;
 
         [Serializable]
         public class LayerAction
