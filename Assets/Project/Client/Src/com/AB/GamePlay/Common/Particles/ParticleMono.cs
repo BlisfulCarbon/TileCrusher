@@ -1,3 +1,4 @@
+using Plugins.PaperCrafts.com.AB.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -24,9 +25,6 @@ namespace Project.Client.Src.com.AB.GamePlay.Common.Particles
             _particleInstance.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             Active(false);
         }
-
-        public void SetPosition(Vector3 position) => 
-            transform.position = position;
 
         public class Pool : MemoryPool<Vector3, ParticleMono>
         {

@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db18d819ff3b499f94f9bb2af9800f81, type: 3}
   m_Name: DigGameDef
   m_EditorClassIdentifier: 
+  Mined:
+    Mined:
+    - {fileID: 11400000, guid: b814319999d05014a885b9b65f1cde51, type: 2}
+    - {fileID: 11400000, guid: 5349aff94c951b94288215a637da1914, type: 2}
+    - {fileID: 11400000, guid: 60a23e883fc119147bd03d10da99efbf, type: 2}
+    - {fileID: 11400000, guid: 39581bb1936a1cb42a62f5ece6d1a5f9, type: 2}
   GamePlay:
     LayerPrefab: {fileID: 6417972232879252983, guid: e37bd5e904ad82542a51ba882491bae7, type: 3}
     NextLayerOffset: {x: 0, y: -0.1, z: 0}

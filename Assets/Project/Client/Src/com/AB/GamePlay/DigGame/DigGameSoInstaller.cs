@@ -3,6 +3,7 @@ using Project.Client.Src.com.AB.GamePlay.Common.Audio;
 using Project.Client.Src.com.AB.GamePlay.Common.Const;
 using Project.Client.Src.com.AB.GamePlay.Common.Particles;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Map;
+using Project.Client.Src.com.AB.GamePlay.DigGame.Mined;
 using UnityEngine;
 using Zenject;
 
@@ -13,11 +14,13 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame
         menuName = AssetsConst.ASSET_MENU_GAMEPALAY_PATH + "DigGame/DigGameDef")]
     public class DigGameSoInstaller : ScriptableObjectInstaller<DigGameSoInstaller>, IParticleMapper, IAudioMapper
     {
+        public MinedService.Settings Mined;
         public MapGamePlayService.Settings GamePlay;
         public MapInteractionService.Settings MapInteraction;
 
         public override void InstallBindings()
         {
+            Container.BindInstance(Mined);
             Container.BindInstance(GamePlay).IfNotBound();
             Container.BindInstance(MapInteraction).IfNotBound();
         }

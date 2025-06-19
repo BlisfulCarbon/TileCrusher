@@ -2,6 +2,7 @@ using System;
 using Plugins.PaperCrafts.com.AB.Extensions;
 using Project.Client.Src.com.AB.GamePlay.Common.Audio;
 using Project.Client.Src.com.AB.GamePlay.Common.Particles;
+using Project.Client.Src.com.AB.GamePlay.DigGame.Mined;
 using Project.Client.Src.com.AB.Infrastructure.InfrastructureAPI.Input;
 using UniRx;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
         readonly MapGamePlayService _mapGamePlay;
         readonly ParticleService _particles;
         readonly AudioSFXService _audioSfx;
+        readonly IMinedService _mined;
         readonly Camera _gamePlayCamera;
 
         readonly CompositeDisposable _disposables = new();
@@ -28,6 +30,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             ParticleService particles,
             AudioSFXService audioSfx,
             IInputService input,
+            IMinedService mined,
             [Inject(Id = ContainersID.GAMEPLAY_CAMERA_CONTAINER_ID)]
             Camera gamePlayCamera)
         {
@@ -36,6 +39,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             _mapGamePlay = mapGamePlay;
             _particles = particles;
             _audioSfx = audioSfx;
+            _mined = mined;
             _gamePlayCamera = gamePlayCamera;
 
             _input.OnTap.Subscribe(OnTap).AddTo(_disposables);
@@ -64,11 +68,25 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
             foreach (var layer in _mapGamePlay.Layers)
             {
                 Vector3Int cellPosition = layer.Tilemap.WorldToCell(worldPosition);
+                Vector2Int cellPositionV2 = cellPosition.ToVector2Int();
+
+                if (layer.IsMinedAttach(cellPositionV2, out MapTileState tileSate))
+                {
+                    const int SHAKE_COUNT_MAX = 3;
+                    MinedMono attachedMined = tileSate.AttachedMined;
+                    attachedMined.Hit();
+                    bool isOverHit = attachedMined.HitCount >= SHAKE_COUNT_MAX;
+                    
+                    if (isOverHit)
+                    {
+                        tileSate.AttachedMined = null;
+                        _mined.PlayCollected(attachedMined.)
+                        GameObject.Destroy(attachedMined);
+                    }
+                }
 
                 if (layer.Tilemap.HasTile(cellPosition))
                 {
-                    Vector2Int cellPositionV2 = cellPosition.ToVector2Int();
-
                     int countInteractionsWithCell = 0;
                     layer.InteractionsMap.TryGetValue(cellPositionV2, out countInteractionsWithCell);
 
@@ -81,13 +99,19 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
 
                     layer.Tilemap.SetTile(cellPosition, tile);
 
-                    var particleSpawnPosition = layer.Tilemap.CellToWorld(cellPosition);
+                    var worldCellPosition = layer.Tilemap.CellToWorld(cellPosition);
                     var particleKey = tile == null ? layer.Def.GetParticleBrokenKey() : layer.Def.GetParticleBreakKey();
-                    _particles.Spawn(particleKey, particleSpawnPosition);
+                    _particles.Spawn(particleKey, worldCellPosition);
 
                     var soundKey = tile == null ? layer.Def.GetAudioBrokenKey() : layer.Def.GetAudioBreakKey();
                     _audioSfx.Play(soundKey);
-                    
+
+                    if (tile == null)
+                    {
+                        if (_mined.TrySpawn(worldCellPosition, out MinedMono mined))
+                            layer.AddMined(cellPositionV2, mined);
+                    }
+
                     break;
                 }
             }

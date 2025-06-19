@@ -4,7 +4,6 @@ using System.Linq;
 using Project.Client.Src.com.AB.GamePlay.Common.Audio;
 using Project.Client.Src.com.AB.GamePlay.Common.Particles;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Map.Filling;
-using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
@@ -14,9 +13,9 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
     public class MapGamePlayService
     {
         Settings _settings;
-        readonly Dictionary<string, LayerFacade> _layers = new Dictionary<string, LayerFacade>();
+        readonly Dictionary<string, MapLayerFacade> _layers = new Dictionary<string, MapLayerFacade>();
 
-        public IEnumerable<LayerFacade> Layers
+        public IEnumerable<MapLayerFacade> Layers
             => _layers.Values;
 
         public MapGamePlayService(Settings settings,
@@ -32,19 +31,19 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
         {
             foreach (var layerElement in settings.GamePlayLayers.Select((item, index) => (index, item)))
             {
-                LayerFacade layer = new LayerFacade(
+                MapLayerFacade mapLayer = new MapLayerFacade(
                     layerElement.item,
                     settings.LayerPrefab, container,
                     layerElement.index * settings.NextLayerOffset);
 
-                layer.SetOrder(-_layers.Count + settings.LayerOriginOrdering);
-                _layers.Add(layer.GetId, layer);
+                mapLayer.SetOrder(-_layers.Count + settings.LayerOriginOrdering);
+                _layers.Add(mapLayer.GetId, mapLayer);
             }
         }
 
         public void SetTileAllLayers(Vector3Int position, int topologyId = 0)
         {
-            foreach (LayerFacade layer in _layers.Values)
+            foreach (MapLayerFacade layer in _layers.Values)
                 layer.SetTile(position, topologyId);
         }
 

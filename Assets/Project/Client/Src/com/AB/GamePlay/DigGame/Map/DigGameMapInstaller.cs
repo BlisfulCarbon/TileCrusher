@@ -24,8 +24,6 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
 
             Container.BindInstance(_sceneRefs.Camera)
                 .WithId(ContainersID.GAMEPLAY_CAMERA_CONTAINER_ID);
-
-            Container.Bind<MapInteractionService>().AsSingle().NonLazy();
         }
     }
 }
