@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+map Grid{
+
+}
+
+object Map{
+Layers
+
+Settings witch consist structure grid
+
+}
+
+object Mined{
+
+}
+
+object InteractionsOrController{
+
+}
+
+@enduml
+

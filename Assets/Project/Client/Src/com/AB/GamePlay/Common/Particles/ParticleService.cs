@@ -1,19 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Project.Client.Src.com.AB.GamePlay.Common.Particles
 {
-    public class ParticleService
+    public class ParticleService : IParticleService
     {
-        readonly Dictionary<string, ParticleEntry> _pools = new();
+        readonly Dictionary<string, ParticleEntry> _pools;
 
-        public ParticleService(Dictionary<string, (ParticleMono.Pool, ParticleSo)> pools)
-        {
-            foreach (var item in pools)
-                _pools.Add(item.Key, new ParticleEntry(item.Value.Item1, item.Value.Item2));
-        }
+        public ParticleService(ParticlePoolRef pool) => 
+            _pools = pool.Items.ToDictionary(item => item.Key,item => new ParticleEntry(item.Value.Item1, item.Value.Item2));
 
         class ParticleEntry
         {
@@ -29,6 +27,7 @@ namespace Project.Client.Src.com.AB.GamePlay.Common.Particles
 
         public void Spawn(string key, Vector3 position)
         {
+            Debug.Log($"{nameof(ParticleService)}::Spawn with key: {key}, position: {position}");
             var entry = _pools[key];
             var particle = entry.Pool.Spawn(position);
 

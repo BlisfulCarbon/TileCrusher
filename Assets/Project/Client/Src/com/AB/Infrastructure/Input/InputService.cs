@@ -50,20 +50,6 @@ namespace Project.Client.Src.com.AB.Infrastructure.Input
             BeginningTouch();
             Lowering();
             UpdateState();
-
-
-            Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(_ =>
-            {
-                var pointer = InputSystem.devices.FirstOrDefault(d => d is Pointer);
-                if (pointer != null)
-                {
-                    Debug.Log($"Pointer found: {pointer.displayName}");
-                }
-                else
-                {
-                    Debug.Log($"Pointer not found");
-                }
-            });
         }
 
         void GetPosition()
@@ -99,8 +85,6 @@ namespace Project.Client.Src.com.AB.Infrastructure.Input
                 .OnCanceledAsObservable()
                 .Subscribe(_ =>
                 {
-                    Debug.Log("InputService::Press::Lowering");
-
                     if (!_swipeTriggered && !_holdTriggered)
                         _onTap.OnNext(_touchPosition.Value);
 
@@ -112,7 +96,7 @@ namespace Project.Client.Src.com.AB.Infrastructure.Input
         void UpdateState()
         {
             return;
-
+            //TODO: swipe, press 
             Observable.EveryUpdate()
                 .Where(_ => _isTouching)
                 .Subscribe(_ =>

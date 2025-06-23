@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using Project.Client.Src.com.AB.GamePlay.Common.Audio;
 using Project.Client.Src.com.AB.GamePlay.Common.Const;
 using Project.Client.Src.com.AB.GamePlay.Common.Particles;
+using Project.Client.Src.com.AB.GamePlay.DigGame.Logic;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Map;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Mined;
 using UnityEngine;
@@ -15,20 +17,22 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame
     public class DigGameSoInstaller : ScriptableObjectInstaller<DigGameSoInstaller>, IParticleMapper, IAudioMapper
     {
         public MinedService.Settings Mined;
-        public MapGamePlayService.Settings GamePlay;
-        public MapInteractionService.Settings MapInteraction;
+        public MapService.Settings GamePlay;
+        public DigGameLogicService.Settings Logic;
 
         public override void InstallBindings()
         {
             Container.BindInstance(Mined);
             Container.BindInstance(GamePlay).IfNotBound();
-            Container.BindInstance(MapInteraction).IfNotBound();
+            Container.BindInstance(Logic).IfNotBound();
         }
 
-        public IEnumerable<ParticleMappingDto> GetParticleMapping() =>
-            GamePlay.GetParticleMapping();
+        public IEnumerable<ParticleDto> GetParticleMapping()
+        {
+            return GamePlay.GetParticleMapping().Concat(Mined.GetParticleMapping());
+        }
 
-        public IEnumerable<AudioMappingDto> GetAudiosMapping() => 
-            GamePlay.GetAudiosMapping();
+        public IEnumerable<AudioDto> GetAudiosMapping() =>
+            GamePlay.GetAudiosMapping().Concat(Mined.GetAudiosMapping());
     }
 }

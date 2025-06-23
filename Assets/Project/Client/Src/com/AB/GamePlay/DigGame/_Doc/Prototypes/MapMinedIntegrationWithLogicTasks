@@ -1,0 +1,4 @@
+
+
+1. Logic session should combine tile cell grid position and world tile cell position in Cell group
+2. Map and Mined should have strategy react on break and broken actions

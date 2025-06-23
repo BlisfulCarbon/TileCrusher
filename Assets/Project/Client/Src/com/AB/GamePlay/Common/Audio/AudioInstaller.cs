@@ -22,7 +22,7 @@ namespace Project.Client.Src.com.AB.GamePlay.Common.Audio
             Container.BindInstance(Settings.Music);
 
             Container.Bind<AudioPlayerService>().AsSingle();
-            Container.Bind<AudioSFXService>().AsSingle();
+            Container.Bind<IAudioSFXService>().To<AudioSFXService>().AsSingle();
             Container.Bind<AudioMusicService>().AsSingle().NonLazy();
 
             Container.BindFactory<AudioPlayerMono, AudioPlayerMono.Factory>()

@@ -20,9 +20,8 @@ namespace Project.Client.Src.com.AB.GamePlay.Common.Particles
             
             BindParticlePools(Container, Mappers, goPoolContainer);
 
-            Container.Bind<ParticleService>()
-                .FromMethod(_ => new ParticleService(GetPools(Mappers)))
-                .AsSingle().NonLazy();
+            Container.Bind<IParticleService>()
+                .To<ParticleService>().AsSingle().NonLazy();
         }
 
         void BindParticlePools(
@@ -30,15 +29,25 @@ namespace Project.Client.Src.com.AB.GamePlay.Common.Particles
             IParticleMapper[] mappers, 
             GameObject goPoolContainer)
         {
+            ParticlePoolRef poolRef = new();
+            
             foreach (var mapper in mappers)
             foreach (var item in mapper.GetParticleMapping())
             {
+                if(Container.HasBindingId<ParticleMono.Pool>(item.Key))
+                    continue;
+                
                 container.BindMemoryPool<ParticleMono, ParticleMono.Pool>()
                     .WithId(item.Key)
                     .WithMaxSize(item.Def.MaxInstances)
                     .FromComponentInNewPrefab(item.Def.ParticlePrefab)
                     .UnderTransform(goPoolContainer.transform);
+
+                var pool = Container.ResolveId<ParticleMono.Pool>(item.Key);
+                poolRef.Items.Add(item.Key, (pool, item.Def));
             }
+
+            Container.BindInstance(poolRef);
         }
 
         GameObject CreatePoolContainer()

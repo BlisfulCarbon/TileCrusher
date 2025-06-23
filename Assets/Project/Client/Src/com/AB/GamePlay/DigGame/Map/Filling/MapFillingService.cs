@@ -5,32 +5,32 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map.Filling
 {
     public class MapFillingService : IInitializable
     {
-        MapGamePlayService _mapGamePlay;
+        IMapService _map;
         Tilemap _fillingLayer;
 
         public MapFillingService(
             [Inject(Id = ContainersID.FILLING_LAYER_CONTAINER_ID)]
             Tilemap fillingLayer,
-            MapGamePlayService mapGamePlay
+            IMapService map
         )
         {
             _fillingLayer = fillingLayer;
-            _mapGamePlay = mapGamePlay;
+            _map = map;
 
             _fillingLayer.gameObject.SetActive(false);
         }
 
         public void Initialize() => 
-            FillLayers(_mapGamePlay, _fillingLayer);
+            FillLayers(_map, _fillingLayer);
 
-        void FillLayers(MapGamePlayService mapGamePlay, Tilemap fillingLayer)
+        void FillLayers(IMapService map, Tilemap fillingLayer)
         {
             foreach (var fillingPosition in fillingLayer.cellBounds.allPositionsWithin)
             {
                 if (!fillingLayer.HasTile(fillingPosition))
                     continue;
 
-                mapGamePlay.SetTileAllLayers(fillingPosition);
+                map.SetTileAllLayers(fillingPosition);
             }
         }
     }

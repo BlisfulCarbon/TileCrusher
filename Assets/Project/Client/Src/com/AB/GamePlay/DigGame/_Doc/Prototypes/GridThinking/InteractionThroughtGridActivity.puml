@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+
+'--- Dig Game logic ---'
+:InteractionService as IS => Subscribe events: InputService;
+:IS => GetTopPosition MapService as MS;
+:IS => CovertInput to GridPositions;
+note right 
+Vector3Int is our IDs in all modules
+<b>Exception!</b> Cause layers has shift!
+end note
+'//////////////////////////////
+:IS => Send:Position: MinedService as Mined;
+note right 
+Working with Mined
+end note
+if(Mined => HasSpawned) then (true)
+    :Mined => Hit;
+    :// Collection resources;
+    'too deep... if(Mined => MinedHasBroken) then (true)
+    stop 
+else (false)
+'////////////////////////////   
+:IS => Send:Position: MapService as MS out TileHasBroken;
+note right 
+Working with Map
+end note
+if(MS => HasTile) then (true) 
+    :MS => BreakTile;
+    :MS => IterateBreaking;
+    if(MS => TileHasBroken) then (true)
+        :MS => DestroyTile;
+        note left
+        MS Should send message IS TileBroken
+        end note
+        stop
+    else (false) 
+        :IS => TryToSpawn:Mined;
+stop
+@enduml

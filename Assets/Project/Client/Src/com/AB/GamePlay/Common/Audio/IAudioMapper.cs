@@ -4,6 +4,6 @@ namespace Project.Client.Src.com.AB.GamePlay.Common.Audio
 {
     public interface IAudioMapper
     {
-        public IEnumerable<AudioMappingDto> GetAudiosMapping();
+        public IEnumerable<AudioDto> GetAudiosMapping();
     }
 }

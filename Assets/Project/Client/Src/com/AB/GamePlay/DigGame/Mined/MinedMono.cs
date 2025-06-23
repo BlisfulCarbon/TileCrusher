@@ -10,47 +10,34 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Mined
     public class MinedMono : MonoBehaviour
     {
         public SpriteRenderer Sprite;
-        public Animation Animations = new Animation();
+        public Animator Animations;
         public int HitCount { get; private set; }
+
+        [SerializeField] string _breakAnimationKey;
+        [SerializeField] string _brokenAnimationKey;
         
-
-        public void Hit()
-        {
-            HitCount++;
-            AnimationShake();
-        }
-
         [Button]
-        public void AnimationShake() => Animations.Shake(Sprite.transform);
-
-        [Serializable]
-        public class Animation
+        public void Break()
         {
-            public float ShakeDuration = 0.3f; 
-            public float Strength = 1f; 
-            public int Vibrato = 10; 
-
-            Sequence _tween;
-
-            public void Shake(Transform sorce)
-            {
-                if (_tween != null) _tween.Kill(true);
-
-                Sequence seq = DOTween.Sequence();
-                seq.Append(sorce.DOShakePosition(ShakeDuration, Strength, Vibrato));
-                seq.SetLoops(3, LoopType.Restart);
-            }
-
-            void OnDestroy()
-            {
-                if (_tween != null && _tween.IsActive()) _tween.Kill();
-            }
+            Animations.SetTrigger(_breakAnimationKey);
+        }
+        
+        [Button]
+        public void Broken()
+        {
+            Animations.SetTrigger(_brokenAnimationKey);
         }
 
         public class Pool : MemoryPool<Vector3, MinedMono>
         {
-            protected override void Reinitialize(Vector3 position, MinedMono item) => 
+            protected override void Reinitialize(Vector3 position, MinedMono item) =>
                 item.SetPosition(position);
+            
+            protected override void OnSpawned(MinedMono item) => 
+                item.Active(true);
+
+            protected override void OnDespawned(MinedMono item) => 
+                item.Active(false);
         }
     }
 }

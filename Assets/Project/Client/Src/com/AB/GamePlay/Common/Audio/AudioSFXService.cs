@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Client.Src.com.AB.GamePlay.Common.Audio
 {
-    public class AudioSFXService
+    public class AudioSFXService : IAudioSFXService
     {
         readonly Dictionary<string, AudioSoundEntry> _audios = new();
         readonly AudioPlayerService _playerService;
@@ -25,14 +25,25 @@ namespace Project.Client.Src.com.AB.GamePlay.Common.Audio
             foreach (var audio in mapper.GetAudiosMapping())
             {
                 if (debug)
-                    Debug.Log($"{nameof(AudioSFXService)}::Initialize: audio: {audio.Def.ID}");
+                    Debug.Log($"{nameof(AudioSFXService)}::Initialize: audio: {audio.Def.ID}, with key: {audio.Key}");
+
+                if (_audios.ContainsKey(audio.Key))
+                    continue;
 
                 _audios.Add(audio.Key, new AudioSoundEntry(audio.Def));
             }
         }
 
-        public void Play(string key) => 
+        public void Play(string key)
+        {
+            if (!_audios.ContainsKey(key))
+            {
+                Debug.LogWarning($"{nameof(AudioSFXService)}::Play => can not find audio clip with key: {key}");
+                return;
+            }
+
             _playerService.PlaySFX(_audios[key].Def.Audio);
+        }
 
         class AudioSoundEntry
         {

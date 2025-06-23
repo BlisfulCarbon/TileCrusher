@@ -1,16 +1,17 @@
-using Project.Client.Src.com.AB.GamePlay.Common.Audio;
+using Project.Client.Src.com.AB.GamePlay.Common.Defs;
+using Project.Client.Src.com.AB.GamePlay.DigGame.React;
 using UnityEngine;
 
 namespace Project.Client.Src.com.AB.GamePlay.DigGame.Mined
 {
     [CreateAssetMenu(
-        fileName = "$Name$MinedDef",
+        fileName = "DigGameMined$Name$Def",
         menuName = DigGameConst.ASSET_MENU_DIGGAME_PATH + "MinedDef")]
-    public class MinedSo : ScriptableObject
+    public class MinedSo : DefsBase
     {
-        public string ID;
         public MinedMono Prefab;
-        public AudioSo HittinSFX;
-        public AudioSo CollectingSFX;
+        public int BreakCountMax;
+
+        public ReactList Actions;
     }
 }

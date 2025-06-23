@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Plugins.PaperCrafts.com.AB.Extensions;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Map.Filling;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Mined;
+using Project.Client.Src.com.AB.GamePlay.DigGame.React;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Object = UnityEngine.Object;
@@ -11,67 +12,67 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Map
 {
     public class MapLayerFacade
     {
-        public readonly Tilemap Tilemap;
-        public readonly TilemapRenderer LayerRenderer;
-        public readonly MapFillingLayerSo Def;
-        public readonly Dictionary<Vector2Int, MapTileState> TileStates = new();
-        public readonly Dictionary<Vector2Int, int> InteractionsMap = new();
+        readonly string ID;
+        readonly Tilemap _tilemap;
+        readonly TilemapRenderer _layerRenderer;
+        readonly MapFillingLayerSo _def;
+        readonly Dictionary<Vector2Int, int> _interactionsCount = new();
 
-        public MapLayerFacade(MapFillingLayerSo def, Tilemap prefab, Transform container, Vector3 offset)
+        public MapLayerFacade(
+            string id,
+            MapFillingLayerSo def,
+            Tilemap prefab,
+            Transform container,
+            Vector3 offset)
         {
-            Def = def;
+            ID = id;
+            _def = def;
 
-            if (string.IsNullOrEmpty(Def.LayerID))
-                Def.LayerID = Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(_def.LayerID))
+                _def.LayerID = Guid.NewGuid().ToString();
 
-            Tilemap = Object.Instantiate(prefab, container, true);
-            LayerRenderer = Tilemap.GetComponent<TilemapRenderer>();
+            _tilemap = Object.Instantiate(prefab, container, true);
+            _layerRenderer = _tilemap.GetComponent<TilemapRenderer>();
 
-            Tilemap.transform.position = Vector3.zero + offset;
-            Tilemap.name = Def.LayerID;
+            _tilemap.transform.position = Vector3.zero + offset;
+            _tilemap.name = _def.LayerID;
         }
 
-        public string GetId => Def.LayerID;
+        public bool HasTile(Vector3Int cellPosition) => 
+            _tilemap.HasTile(cellPosition);
+
+        public void Break(Vector2Int cellPosition, out bool broken)
+        {
+            int countInteractionsWithCell = UpdateInteractions(cellPosition);
+            broken = countInteractionsWithCell >= _def.TopologyTiles.Count;
+            TileBase tile = broken ? null : _def.TopologyTiles[countInteractionsWithCell];
+
+            _tilemap.SetTile(cellPosition.ToVector3Int(), tile);
+        }
+
+        int UpdateInteractions(Vector2Int cellPosition)
+        {
+            int countInteractionsWithCell = 0;
+
+            _interactionsCount.TryGetValue(cellPosition, out countInteractionsWithCell);
+
+            countInteractionsWithCell++;
+            _interactionsCount[cellPosition] = countInteractionsWithCell;
+            return countInteractionsWithCell;
+        }
+
+        public Tilemap GetTilemap() => _tilemap;
 
         public void SetOrder(int index) =>
-            this.LayerRenderer.sortingOrder = index;
+            this._layerRenderer.sortingOrder = index;
 
         public void SetTile(Vector3Int position, int topologyId = 0)
         {
-            TileBase tile = Def.TopologyTiles[topologyId];
-            Tilemap.SetTile(position, tile);
+            TileBase tile = _def.TopologyTiles[topologyId];
+            _tilemap.SetTile(position, tile);
         }
 
-        public bool IsMinedAttach(Vector2Int cellPosition, out MapTileState state)
-        {
-            state = null;
-
-            if (!TileStates.TryGetValue(cellPosition, out state))
-                return false;
-
-            return state.AttachedMined != null;
-        }
-
-        public void AddMined(Vector2Int position, MinedMono mined)
-        {
-            MapTileState state = GetState(position);
-            state.AttachedMined = mined;
-        }
-
-        MapTileState GetState(Vector2Int position)
-        {
-            MapTileState state;
-            if (!TileStates.TryGetValue(position, out state))
-                state = new MapTileState();
-
-            TileStates[position] = state;
-            return state;
-        }
-    }
-
-    public class MapTileState
-    {
-        public int InteractionsCount;
-        public MinedMono AttachedMined;
+        public ReactList GetActions() => 
+            _def.Actions;
     }
 }
