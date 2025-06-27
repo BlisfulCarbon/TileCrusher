@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Map;
 using Project.Client.Src.com.AB.GamePlay.DigGame.Mined;
 using Project.Client.Src.com.AB.GamePlay.DigGame.React;
@@ -21,7 +23,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
         readonly CompositeDisposable _disposables = new();
 
         float _SwipeHoldInteractionDelay;
-        readonly DigGameLogicInteractionHandler interactionProces;
+        readonly DigGameLogicInteractionHandler _interactChain;
 
         public DigGameLogicService(
             Settings settings,
@@ -30,7 +32,7 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
             IMinedService mined,
             IReactService react,
             [Inject(Id = ContainersID.GAMEPLAY_CAMERA_CONTAINER_ID)]
-            Camera gamePlayCamera)
+            Camera gamePlayCamera, List<DigGameLogicInteractionHandler> interactionFlow)
         {
             _settings = settings;
             _input = input;
@@ -43,12 +45,26 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
             _input.OnHold.Subscribe(OnHold).AddTo(_disposables);
             _input.OnSwipe.Subscribe(OnSwipe).AddTo(_disposables);
 
-            interactionProces = BuildInteractionChain();
+            _interactChain = ToChainOfInteractFlow(interactionFlow);
+        }
+
+        DigGameLogicInteractionHandler ToChainOfInteractFlow(List<DigGameLogicInteractionHandler> interactionFlow)
+        {
+            if (interactionFlow.Count == 0)
+            {
+                Debug.LogWarning($"{nameof(DigGameLogicService)}::BindInteractionFlow: interactionFlow is empty.");
+                return null;
+            }
+
+            for (var i = 0; i < interactionFlow.Count - 1; i++) 
+                interactionFlow[i].SetNext(interactionFlow[i + 1]);
+
+            return interactionFlow.First();
         }
 
         void ProcessInteractions(Vector2 worldPosition)
         {
-            interactionProces.Handle(worldPosition);
+            _interactChain.Handle(worldPosition);
         }
 
 
@@ -70,9 +86,9 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
 
         DigGameLogicInteractionHandler BuildInteractionChain()
         {
-            var session = new DigGameLogicInteractionHandler.Session();
+            var session = new DigGameLogicInteractionHandler.LogicSession();
 
-            var resetSession = new LogicResetSessionHandler(session);
+            var resetSession = new LogicProvideSessionHandler(session);
             var getTopTile = new LogicMapGetTopCellPositionHandler(session, _map);
             var breakMined = new LogicMinedBreakHandler(session, _mined);
             var breakTile = new LogicMapTileBreakHandler(session, _map);

@@ -7,22 +7,22 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
     {
         readonly IMinedService _mined;
 
-        public LogicMinedBreakHandler(Session session, IMinedService mined)
+        public LogicMinedBreakHandler(LogicSession logicSession, IMinedService mined)
         {
             _mined = mined;
-            SetSession(session);
+            SetSession(logicSession);
         }
 
         public override bool Handle(Vector2 position)
         {
             _session.MinedWasBreak = _mined.Break(
-                _session.MapCell.GridPosition, 
+                _session.MapCell.GridPosition,
                 out var reaction);
 
             if (_session.MinedWasBreak)
                 _session.Reaction = reaction;
-            
-           return base.Handle(position);
+
+            return base.Handle(position);
         }
     }
 }

@@ -7,8 +7,8 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
     {
         public IReactService _react;
 
-        public LogicProduceReaction(Session session, IReactService react) =>
-            (_react, _session) = (react, session);
+        public LogicProduceReaction(LogicSession logicSession, IReactService react) =>
+            (_react, _session) = (react, logicSession);
 
         public override bool Handle(Vector2 position)
         {

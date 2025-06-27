@@ -6,11 +6,11 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
 {
     public class DigGameLogicInteractionHandler : InteractionHandlerBase
     {
-        protected Session _session = new ();
+        protected LogicSession _session = new ();
 
-        protected void SetSession(Session session) => _session = session;
+        protected void SetSession(LogicSession logicSession) => _session = logicSession;
 
-        public class Session
+        public class LogicSession
         {
             public MapCell MapCell ;
             

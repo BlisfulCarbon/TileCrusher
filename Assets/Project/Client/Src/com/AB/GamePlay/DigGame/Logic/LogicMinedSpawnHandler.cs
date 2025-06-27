@@ -8,10 +8,10 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
     {
         readonly IMinedService _mined;
 
-        public LogicMinedSpawnHandler(Session session, IMinedService mined)
+        public LogicMinedSpawnHandler(LogicSession logicSession, IMinedService mined)
         {
             _mined = mined;
-            SetSession(session);
+            SetSession(logicSession);
         }
 
         public override bool Handle(Vector2 position)

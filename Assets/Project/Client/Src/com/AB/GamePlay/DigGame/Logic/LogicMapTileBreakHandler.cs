@@ -7,10 +7,10 @@ namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
     {
         readonly IMapService _map;
 
-        public LogicMapTileBreakHandler(Session session, IMapService map)
+        public LogicMapTileBreakHandler(LogicSession logicSession, IMapService map)
         {
             _map = map;
-            SetSession(session);
+            SetSession(logicSession);
         }
 
         public override bool Handle(Vector2 position)

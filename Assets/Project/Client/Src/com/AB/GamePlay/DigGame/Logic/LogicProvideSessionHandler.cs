@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace Project.Client.Src.com.AB.GamePlay.DigGame.Logic
 {
-    public class LogicResetSessionHandler : DigGameLogicInteractionHandler
+    public class LogicProvideSessionHandler : DigGameLogicInteractionHandler
     {
-        public LogicResetSessionHandler(Session session) => 
-            SetSession(session);
+        public LogicProvideSessionHandler(LogicSession logicSession) => 
+            SetSession(logicSession);
 
         public override bool Handle(Vector2 position)
         {

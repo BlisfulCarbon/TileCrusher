@@ -27,7 +27,6 @@ namespace Project.Client.Src.com.AB.GamePlay.Common.Particles
 
         public void Spawn(string key, Vector3 position)
         {
-            Debug.Log($"{nameof(ParticleService)}::Spawn with key: {key}, position: {position}");
             var entry = _pools[key];
             var particle = entry.Pool.Spawn(position);
 
